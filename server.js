@@ -9,7 +9,15 @@ const port = process.env.PORT || 8080;
 
 // file path || app use //
 const staticPath = path.join( __dirname , 'public/');
+const databasePath = path.join( __dirname);
+//
 app.use(express.static(staticPath));
+
+// installized database //
+const database = new Datastore({
+    filename: path.join(databasePath , 'database.db')
+});
+database.loadDatabase();
 
 // server / app routing //
 app.get('/' , (req , res) => {
