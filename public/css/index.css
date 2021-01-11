@@ -25,5 +25,18 @@ body {
 
 /* page sign up form */
 .form {
-    
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form .text-area {
+    width: 80%;
+    margin: 1rem;
+}
+
+.form .button {
+    width: 15rem;
 }
