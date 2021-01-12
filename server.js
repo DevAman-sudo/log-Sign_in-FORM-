@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
 const Datastore = require('nedb');
+const io = require('socket.io')(server);
 const chalk = require('chalk');
 const path = require('path');
 const port = process.env.PORT || 8080;
@@ -18,6 +19,11 @@ const database = new Datastore({
     filename: path.join(databasePath , 'database.db')
 });
 database.loadDatabase();
+
+// web socket / socket.io //
+io.on('connection' , (socket) => {
+    
+});
 
 // server / app routing //
 app.get('/' , (req , res) => {
