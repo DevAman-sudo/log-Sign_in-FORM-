@@ -23,6 +23,19 @@ database.loadDatabase();
 // web socket / socket.io //
 io.on('connection' , (socket) => {
     
+    socket.on('client_value' , data => {
+        database.insert({
+            message: data
+        });
+        database.find( {} , (err , data) => {
+            if (err) {
+                console.log(`Error Found => ${err}`);
+            } else {
+                socket.emit('server_value' , data[0].message);
+            }
+        });
+    });
+    
 });
 
 // server / app routing //
