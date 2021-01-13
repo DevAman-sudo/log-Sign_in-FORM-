@@ -36,6 +36,12 @@ io.on('connection' , (socket) => {
         });
     });
     
+    socket.on('disconnect' , () => {
+        database.remove( {} , (err , num_removed) => {
+            console.log(`${num_removed} data removed`);
+        });
+    });
+    
 });
 
 // server / app routing //
