@@ -14,11 +14,10 @@ const port = process.env.PORT || 8080;
 const staticPath = path_1.default.join(__dirname, '../public/');
 const viewsFolder = path_1.default.join(__dirname, '../views');
 app.set('views', viewsFolder);
-app.set('view engine', 'ejs');
+app.set('view engine', 'hbs');
 app.use(express_1.default.static(staticPath));
 // app route //
 app.get('/', (req, res) => {
-    // res.sendFile(path.join(staticPath , 'index.html'));
     res.render('index');
 });
 // listening to server on port 8080 //
