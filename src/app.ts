@@ -1,11 +1,13 @@
 // NPM packages //
 import express, {Application , Request , Response , NextFunction} from 'express';
+import { createServer } from 'http';
 import chalk from 'chalk';
 import hbs from 'hbs';
 import path from 'path';
 
 // app and port setup //
 const app: Application = express();
+const server = createServer(app);
 const port = process.env.PORT || 8080;
 
 // file path //
@@ -26,14 +28,16 @@ app.get('/' , (req: Request , res: Response) => {
 
 app.post('/' , async (req: Request , res: Response) => {
     try {
-        console.log(req.body.text);
-        res.send(req.body.text);
+        let text_value = req.body.text;
+        
+        console.log(text_value);
+        res.render('index');
     } catch {
         res.status(400).send(Error);
     }
 });
 
 // listening to server on port 8080 //
-app.listen(port , () => {
+server.listen(port , () => {
     console.log( chalk.red.bgBlue.bold(`http://127.0.0.1:${port}`));
 });
