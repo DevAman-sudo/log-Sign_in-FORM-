@@ -1,6 +1,7 @@
 // NPM packages //
 import express, {Application , Request , Response , NextFunction} from 'express';
 import { createServer } from 'http';
+import * as WebSocket from 'socket.io';
 import chalk from 'chalk';
 import hbs from 'hbs';
 import path from 'path';
@@ -8,6 +9,7 @@ import path from 'path';
 // app and port setup //
 const app: Application = express();
 const server = createServer(app);
+const io = require('socket.io')(server);
 const port = process.env.PORT || 8080;
 
 // file path //

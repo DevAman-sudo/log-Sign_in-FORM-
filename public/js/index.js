@@ -1,3 +1,6 @@
+// Web Socket //
+const socket = io();
+
 // DOM elements //
 const form = document.getElementById('form');
 const textArea = document.getElementById('text-area');

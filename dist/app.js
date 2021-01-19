@@ -20,6 +20,7 @@ const path_1 = __importDefault(require("path"));
 // app and port setup //
 const app = express_1.default();
 const server = http_1.createServer(app);
+const io = require('socket.io')(server);
 const port = process.env.PORT || 8080;
 // file path //
 const staticPath = path_1.default.join(__dirname, '../public/');
