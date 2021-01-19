@@ -7,5 +7,5 @@ const dataContainer = document.getElementById('data-container');
 // listening submit event on form submit //
 form.addEventListener('submit' , (event) => {
     // prevent page to submit //
-    event.preventDefault();
+    // event.preventDefault();
 });

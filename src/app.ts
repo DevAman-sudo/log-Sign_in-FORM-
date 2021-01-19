@@ -12,6 +12,9 @@ const port = process.env.PORT || 8080;
 const staticPath = path.join(__dirname , '../public/');
 const viewsFolder = path.join(__dirname , '../views');
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 app.set('views' , viewsFolder);
 app.set('view engine' , 'hbs');
 app.use(express.static(staticPath));
@@ -19,6 +22,15 @@ app.use(express.static(staticPath));
 // app route //
 app.get('/' , (req: Request , res: Response) => {
     res.render('index');
+});
+
+app.post('/' , async (req: Request , res: Response) => {
+    try {
+        console.log(req.body.text);
+        res.send(req.body.text);
+    } catch {
+        res.status(400).send(Error);
+    }
 });
 
 // listening to server on port 8080 //
