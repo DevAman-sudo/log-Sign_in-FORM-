@@ -31,6 +31,24 @@ body {
     align-items: center;
 }
 
+.form .input {
+    margin: 1rem;
+    padding: 0.5rem;
+    width: 80vw;
+    height: 4rem;
+    outline: 0;
+    border: 0.1rem solid #ccc;
+    border-radius: 2rem;
+}
+
+.form .button {
+    width: 10vw;
+    height: 3rem;
+    border-radius: 2rem;
+    outline: 0;
+    border: 0.2rem solid #ccc;
+}
+
 .form .text-area {
     width: 80%;
     margin: 1rem;

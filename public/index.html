@@ -12,10 +12,10 @@
 
     <!-- log_in form -->
     <form action="/" method="post" class="form" id="form" accept-charset="utf-8">
-        <input type="text" name="name" id="name" class="name" placeholder="type your name ..." autocomplete="off" />
-        <input type="email" name="email" id="email" placeholder="Your Email ..." />
-        <input type="password" name="password" id="password" placeholder="password" />
-        <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Your Password" />
+        <input type="text" name="name" id="name" class="input" placeholder="type your name ..." autocomplete="off" required />
+        <input type="email" name="email" id="email" class="input" placeholder="Your Email ..." required />
+        <input type="password" name="password" id="password" class="input" placeholder="password" required />
+        <input type="password" name="confirm_password" id="confirm_password" class="input" placeholder="Confirm Your Password" required />
         <button class="button" id="button" type="submit">submit</button>
     </form>
 
