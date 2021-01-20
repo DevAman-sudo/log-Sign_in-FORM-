@@ -19,6 +19,7 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
 /* page sign up form */
@@ -37,12 +38,4 @@ body {
 
 .form .button {
     width: 15rem;
-}
-
-/* data_container */
-.data-container {
-    width: 100%;
-    height: auto;
-    min-height: 20vh;
-    padding: 1rem;
 }

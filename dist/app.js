@@ -20,25 +20,34 @@ const path_1 = __importDefault(require("path"));
 // app and port setup //
 const app = express_1.default();
 const server = http_1.createServer(app);
-const io = require('socket.io')(server);
 const port = process.env.PORT || 8080;
 // file path //
 const staticPath = path_1.default.join(__dirname, '../public/');
 const viewsFolder = path_1.default.join(__dirname, '../views');
 app.use(express_1.default.json());
-app.use(express_1.default.urlencoded({ extended: false }));
+app.use(express_1.default.urlencoded({
+    extended: false
+}));
 app.set('views', viewsFolder);
 app.set('view engine', 'hbs');
 app.use(express_1.default.static(staticPath));
 // app route //
 app.get('/', (req, res) => {
-    res.render('index');
+    res.sendFile(path_1.default.join(staticPath, 'index.html'));
 });
 app.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let text_value = req.body.text;
-        console.log(text_value);
-        res.render('index');
+        let name = req.body.name;
+        let email = req.body.email;
+        let password = req.body.password;
+        let confirm_password = req.body.confirm_password;
+        if (password !== confirm_password) {
+            res.send('password didnt match');
+        }
+        else {
+            console.log(name, email, password, confirm_password);
+            res.sendFile(path_1.default.join(staticPath, 'index.html'));
+        }
     }
     catch (_a) {
         res.status(400).send(Error);
