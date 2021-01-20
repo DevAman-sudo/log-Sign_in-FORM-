@@ -8,6 +8,7 @@ import express, {
 import {
     createServer
 } from 'http';
+import * as admin from 'firebase-admin';
 import chalk from 'chalk';
 import hbs from 'hbs';
 import path from 'path';
@@ -20,6 +21,12 @@ const port = process.env.PORT || 8080;
 // file path //
 const staticPath = path.join(__dirname, '../public/');
 const viewsFolder = path.join(__dirname, '../views');
+
+const serviceAccount = path.join(__dirname , '../admin.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 
 app.use(express.json());
 app.use(express.urlencoded({
