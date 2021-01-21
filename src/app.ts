@@ -44,15 +44,30 @@ app.get('/', (req: Request, res: Response) => {
 
 app.post('/', async (req: Request, res: Response) => {
     try {
-        let name = req.body.name;
-        let email = req.body.email;
-        let password = req.body.password;
-        let confirm_password = req.body.confirm_password;
+        let user_name = req.body.name;
+        let user_email = req.body.email;
+        let user_password = req.body.password;
+        let user_confirm_password = req.body.confirm_password;
 
-        if (password !== confirm_password) {
+        if (user_password !== user_confirm_password) {
             res.send('password didnt match');
         } else {
-            console.log(name, email, password, confirm_password);
+            let name: string;
+            let email: string;
+            let password: any;
+            let confirm_password: any;
+            
+            admin.auth().createUser({
+                name: 'user_name' ,
+                email: 'user_email' ,
+                password: 'user_password' ,
+                confirm_password: 'user_confirm_password'
+            }).then( (user_record) => {
+                console.log(`User Sucessfully Created ${user_record}`);
+            }).catch( (error) => {
+                console.log(`Error Found => ${error}`);
+            });
+            
             res.sendFile(path.join(staticPath, 'index.html'));
         }
 

@@ -1,83 +1,68 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
 // NPM packages //
-const express_1 = __importDefault(require("express"));
-const http_1 = require("http");
-const admin = __importStar(require("firebase-admin"));
-const chalk_1 = __importDefault(require("chalk"));
-const path_1 = __importDefault(require("path"));
+const express = require('express');
+const app = express();
+const server = require('http').createServer(app);
+const admin = require('firebase-admin');
+const chalk = require('chalk');
+const hbs = require('hbs');
+const path = require('path');
+
 // app and port setup //
-const app = express_1.default();
-const server = http_1.createServer(app);
 const port = process.env.PORT || 8080;
+
 // file path //
-const staticPath = path_1.default.join(__dirname, '../public/');
-const viewsFolder = path_1.default.join(__dirname, '../views');
-const serviceAccount = path_1.default.join(__dirname, '../admin.json');
+const staticPath = path.join(__dirname, '../public/');
+const viewsFolder = path.join(__dirname, '../views');
+const serviceAccount = path.join(__dirname , '../admin.json');
+
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount)
 });
-app.use(express_1.default.json());
-app.use(express_1.default.urlencoded({
+
+app.use(express.json());
+app.use(express.urlencoded({
     extended: false
 }));
+
 app.set('views', viewsFolder);
 app.set('view engine', 'hbs');
-app.use(express_1.default.static(staticPath));
+app.use(express.static(staticPath));
+
 // app route //
-app.get('/', (req, res) => {
-    res.sendFile(path_1.default.join(staticPath, 'index.html'));
+app.get('/', (req , res) => {
+    res.sendFile(path.join(staticPath, 'index.html'));
 });
-app.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+
+app.post('/', async (req , res) => {
     try {
-        let name = req.body.name;
-        let email = req.body.email;
-        let password = req.body.password;
-        let confirm_password = req.body.confirm_password;
-        if (password !== confirm_password) {
+        let user_name = req.body.name;
+        let user_email = req.body.email;
+        let user_password = req.body.password;
+        let user_confirm_password = req.body.confirm_password;
+
+        if (user_password !== user_confirm_password) {
             res.send('password didnt match');
+        } else {
+            admin.auth().createUser({
+                name: user_name ,
+                email: user_email ,
+                password: user_password ,
+                confirm_password: user_confirm_password
+            }).then( (user_record) => {
+                console.log(`User Sucessfully Created ${user_record}`);
+            }).catch( (error) => {
+                console.log(`Error Found => ${error}`);
+            });
+            
+            res.sendFile(path.join(staticPath, 'index.html'));
         }
-        else {
-            console.log(name, email, password, confirm_password);
-            res.sendFile(path_1.default.join(staticPath, 'index.html'));
-        }
-    }
-    catch (_a) {
+
+    } catch {
         res.status(400).send(Error);
     }
-}));
+});
+
 // listening to server on port 8080 //
 server.listen(port, () => {
-    console.log(chalk_1.default.red.bgBlue.bold(`http://127.0.0.1:${port}`));
+    console.log(chalk.red.bgBlue.bold(`http://127.0.0.1:${port}`));
 });
