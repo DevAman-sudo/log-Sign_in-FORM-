@@ -13,10 +13,10 @@ const port = process.env.PORT || 8080;
 // file path //
 const staticPath = path.join(__dirname, '../public/');
 const viewsFolder = path.join(__dirname, '../views');
-const serviceAccount = path.join(__dirname , '../admin.json');
+const serviceAccount = path.join(__dirname, '../admin.json');
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+    credential: admin.credential.cert(serviceAccount)
 });
 
 app.use(express.json());
@@ -29,11 +29,11 @@ app.set('view engine', 'hbs');
 app.use(express.static(staticPath));
 
 // app route //
-app.get('/', (req , res) => {
+app.get('/', (req, res) => {
     res.sendFile(path.join(staticPath, 'index.html'));
 });
 
-app.post('/', async (req , res) => {
+app.post('/', async (req, res) => {
     try {
         let user_name = req.body.name;
         let user_email = req.body.email;
@@ -44,18 +44,34 @@ app.post('/', async (req , res) => {
             res.send('password didnt match');
         } else {
             admin.auth().createUser({
-                name: user_name ,
-                email: user_email ,
-                password: user_password ,
+                name: user_name,
+                email: user_email,
+                password: user_password,
                 confirm_password: user_confirm_password
-            }).then( (user_record) => {
+            }).then((user_record) => {
                 console.log(`User Sucessfully Created ${user_record}`);
-            }).catch( (error) => {
+            }).catch((error) => {
                 console.log(`Error Found => ${error}`);
             });
-            
-            res.sendFile(path.join(staticPath, 'index.html'));
+
+            res.redirect('/login');
         }
+
+    } catch {
+        res.status(400).send(Error);
+    }
+});
+
+app.get('/login', (req, res) => {
+    res.sendFile(staticPath, 'login.html');
+});
+
+app.post('/login', (req, res) => {
+    try {
+        let user_email = req.body.email;
+        let user_password = req.body.password;
+
+        console.log(user_email, user_password);
 
     } catch {
         res.status(400).send(Error);
