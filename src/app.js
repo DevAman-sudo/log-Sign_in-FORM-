@@ -30,7 +30,8 @@ app.use(express.static(staticPath));
 
 // app route //
 app.get('/', (req, res) => {
-    res.sendFile(path.join(staticPath, 'index.html'));
+    // res.sendFile(path.join(staticPath, 'index.html'));
+    res.render('index');
 });
 
 app.post('/', async (req, res) => {
@@ -63,19 +64,8 @@ app.post('/', async (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    res.sendFile(staticPath, 'login.html');
-});
-
-app.post('/login', (req, res) => {
-    try {
-        let user_email = req.body.email;
-        let user_password = req.body.password;
-
-        console.log(user_email, user_password);
-
-    } catch {
-        res.status(400).send(Error);
-    }
+    // res.sendFile(staticPath, 'login.html');
+    res.render('login');
 });
 
 // listening to server on port 8080 //
